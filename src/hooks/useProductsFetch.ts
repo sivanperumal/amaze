@@ -1,10 +1,11 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { product } from "../interface";
 
-export const useFetch = (url: string) => {
-  const [data, setData] = useState<null>(null);
+export const useProductsFetch = (url: string) => {
+  const [data, setData] = useState<product[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | unknown>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -13,8 +14,9 @@ export const useFetch = (url: string) => {
         const response = await axios(`${url}`);
         setData(response.data.products);
         setLoading(false);
-      } catch (e: unknown) {
-        setError(e);
+      } catch (e) {
+        const err = e as AxiosError;
+        setError(err.message);
         setLoading(false);
       }
     };

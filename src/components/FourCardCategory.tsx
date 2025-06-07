@@ -1,34 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { categories, product } from "../interface";
+import React from "react";
+import { categories } from "../interface";
 import { Box, Card, CircularProgress, Grid, Typography } from "@mui/material";
-import axios, { AxiosError } from "axios";
 import { Link } from "react-router";
+import { useProductsFetch } from "../hooks/useProductsFetch";
 
 interface CategoryProps {
   category: categories;
 }
 const FourCardCategory: React.FC<CategoryProps> = (props) => {
-  const [products, setProducts] = useState<product[] | null>();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-
   const { category } = props;
-
-  useEffect(() => {
-    const getProduct = async () => {
-      setLoading(true);
-      try {
-        const response = await axios(`${category.url}?limit=4`);
-        setLoading(false);
-        setProducts(response.data.products);
-      } catch (e) {
-        setLoading(false);
-        const error = e as AxiosError;
-        setError(error.message);
-      }
-    };
-    getProduct();
-  }, [category.url]);
+  const {
+    data: products,
+    loading,
+    error,
+  } = useProductsFetch(`${category.url}?limit=4`);
 
   if (loading) {
     return (

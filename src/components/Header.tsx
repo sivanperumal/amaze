@@ -3,23 +3,45 @@ import {
   Badge,
   Box,
   IconButton,
-  InputBase,
   Toolbar,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useRef } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-import { Link } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
+import { useCart } from "../redux/slices/cart.slice";
+import HeaderUserMenu from "./HeaderUserMenu";
+import { useUser } from "../redux/slices/user.slice";
+import Search from "./Search";
 
 interface HeaderProps {
   onClickSidebar: () => void;
 }
 const Header: React.FC<HeaderProps> = (props) => {
   const { onClickSidebar } = props;
+  const { list: cartList } = useCart();
+  const { loggedUser } = useUser();
+
+  const ref = useRef("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    ref.current = e.target.value;
+  };
+
+  const handleSearch = () => {
+    searchParams.set("k", ref.current);
+    setSearchParams(searchParams);
+    navigate(`/searchproducts?k=${searchParams.get("k")}`);
+  };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
   return (
     <AppBar position="static" sx={{ backgroundColor: "#131921" }}>
       <Toolbar>
@@ -31,20 +53,11 @@ const Header: React.FC<HeaderProps> = (props) => {
             amaze
           </Link>
         </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            backgroundColor: "white",
-            borderRadius: 1,
-            px: 1,
-          }}
-        >
-          <InputBase placeholder="Search Amazon.in" />
-          <IconButton>
-            <SearchIcon />
-          </IconButton>
-        </Box>
+        <Search
+          onSearchChange={handleOnChange}
+          onSearchKeyPress={handleKeyPress}
+          onSearchClick={handleSearch}
+        />
         <Box
           sx={{
             display: "flex",
@@ -53,18 +66,33 @@ const Header: React.FC<HeaderProps> = (props) => {
             px: 1,
           }}
         >
-          <IconButton aria-label="cart" sx={{ color: "#fff" }}>
-            <Badge badgeContent={2} color="primary">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
+          <HeaderUserMenu
+            username={`${
+              loggedUser
+                ? loggedUser?.firstname + " " + loggedUser?.lastname
+                : "GUEST"
+            }`}
+          />
           <IconButton
             size="large"
             aria-label={`show 3 items in wishlist`}
             sx={{ color: "#fff" }}
+            component={Link}
+            to="/customer/account/wishlist"
           >
-            <Badge badgeContent={3} color="secondary">
+            <Badge color="secondary">
               <FavoriteIcon />
+            </Badge>
+          </IconButton>
+          <IconButton
+            aria-label="cart"
+            sx={{ color: "#fff!important" }}
+            disabled={cartList?.length ? false : true}
+            component={Link}
+            to="/checkout/cart"
+          >
+            <Badge badgeContent={cartList?.length} color="primary">
+              <ShoppingCartIcon />
             </Badge>
           </IconButton>
         </Box>

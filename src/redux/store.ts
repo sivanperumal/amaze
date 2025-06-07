@@ -3,6 +3,8 @@ import userReducer from "./slices/user.slice";
 import productReducer from "./slices/product.slice";
 import categoriesReducer from "./slices/category.slice";
 import categoryProductReducer from "./slices/categoryproduct.slice";
+import cartReducer from "./slices/cart.slice";
+import wishlistReducer from "./slices/wishlist.slice";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 export const rootReducer = combineReducers({
@@ -10,6 +12,8 @@ export const rootReducer = combineReducers({
   product: productReducer,
   categories: categoriesReducer,
   categoryProducts: categoryProductReducer,
+  cart: cartReducer,
+  wishlist: wishlistReducer,
 });
 // only for jest test cases
 export const setupStore = (preloadedState?: Partial<RootState>) => {
