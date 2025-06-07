@@ -1,30 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { categories, product } from "../interface";
 import { Box, Card, Grid, Typography } from "@mui/material";
-import axios, { AxiosError } from "axios";
 import { Link } from "react-router";
+import { useProductsFetch } from "../hooks/useProductsFetch";
 
 interface CategoryProps {
   category: categories;
 }
 const SingleCardCategory: React.FC<CategoryProps> = (props) => {
-  const [products, setProducts] = useState<product[] | null>();
-  const [error, setError] = useState<string | null>(null);
-
   const { category } = props;
-
-  useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const response = await axios(`${category.url}?limit=6`);
-        setProducts(response.data.products);
-      } catch (e) {
-        const error = e as AxiosError;
-        setError(error.message);
-      }
-    };
-    getProduct();
-  }, [category.url]);
+  const { data: products, error } = useProductsFetch(`${category.url}?limit=6`);
 
   if (error) {
     return (
@@ -46,7 +31,7 @@ const SingleCardCategory: React.FC<CategoryProps> = (props) => {
         </Box>
         <Grid container spacing={2}>
           {products &&
-            products.map((product) => {
+            products?.map((product: product) => {
               return (
                 <Grid size={{ md: 2 }}>
                   <img

@@ -1,19 +1,32 @@
 import { Divider, Drawer, List, ListItem, ListItemText } from "@mui/material";
 import React from "react";
 import { useCategories } from "../redux/slices/category.slice";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../redux/slices/user.slice";
 interface SidebarProps {
   open: boolean;
   onCloseSidebar: () => void;
 }
 const CategorySidebar: React.FC<SidebarProps> = (props) => {
   const { open, onCloseSidebar } = props;
+  const navigate = useNavigate();
   const { list } = useCategories();
+  const { loggedUser } = useUser();
+
+  const handleCategoryItemClick = (url: string) => {
+    navigate(url);
+    onCloseSidebar();
+  };
   return (
     <Drawer anchor="left" open={open} onClose={onCloseSidebar}>
-      <List>
+      <List sx={{ width: "250px!important" }}>
         <ListItem>
-          <b>Hello, sign in</b>
+          <b>
+            Hello,{" "}
+            {loggedUser
+              ? loggedUser?.firstname + " " + loggedUser?.lastname
+              : "GUEST"}
+          </b>
         </ListItem>
         <Divider />
         {list &&
@@ -21,14 +34,11 @@ const CategorySidebar: React.FC<SidebarProps> = (props) => {
             return (
               <ListItem>
                 <ListItemText
-                  primary={
-                    <Link
-                      to={`/category/${category.slug}`}
-                      style={{ textDecoration: "none", color: "inherit" }}
-                    >
-                      {category.name}
-                    </Link>
+                  onClick={() =>
+                    handleCategoryItemClick(`/category/${category.slug}`)
                   }
+                  primary={category.name}
+                  sx={{ cursor: "pointer" }}
                 />
               </ListItem>
             );

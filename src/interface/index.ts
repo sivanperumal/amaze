@@ -1,12 +1,19 @@
-export interface users {
+export interface user {
+  id: number;
+  firstname: string;
+  lastname: string;
   username: string;
   email: string;
   password: string;
+  orders: order[];
 }
 
 export interface userState {
-  userList: users[];
+  userList: user[];
   isAuthenticate: boolean;
+  loggedUser: user | undefined;
+  loading: boolean;
+  error: string | null;
 }
 
 export interface categories {
@@ -48,6 +55,44 @@ export interface prdoductListState {
 }
 export interface productDetail {
   item: product | null;
+  searchProducts: product[] | undefined;
   loading: boolean;
   error: string | unknown;
+}
+
+export interface cart {
+  id: number | string;
+  productId: number | undefined;
+  title: string;
+  price: number;
+  thumbnail: string;
+  quantity: number;
+}
+export interface cartList {
+  list: cart[] | undefined;
+  cartProduct: product | null;
+  loading: boolean;
+  error: string | unknown;
+}
+
+export interface wishlist {
+  id: number | string;
+  productId: number;
+  title: string;
+  price: number;
+  thumbnail: string;
+}
+export interface wishlistState {
+  list: wishlist[] | undefined;
+  favProduct: wishlist | null;
+  loading: boolean;
+  error: string | unknown;
+}
+
+export interface order {
+  id: number | string;
+  date: string;
+  total: number;
+  status: string;
+  cart: cart[] | undefined;
 }

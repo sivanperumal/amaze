@@ -4,7 +4,7 @@ import {
   useCategories,
 } from "../../redux/slices/category.slice";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import { distributeCategories } from "../../utils/distributeCategories";
+import { distributeCategories } from "../../utils";
 import FourRowCategory from "../../components/FourRowCategories";
 import SingleRowCategory from "../../components/SingleRowCategories";
 import { useDispatch } from "react-redux";
