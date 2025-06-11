@@ -3,13 +3,12 @@ import {
   fetchCategories,
   useCategories,
 } from "../../redux/slices/category.slice";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CardMedia, CircularProgress, Typography } from "@mui/material";
 import { distributeCategories } from "../../utils";
 import FourRowCategory from "../../components/FourRowCategories";
 import SingleRowCategory from "../../components/SingleRowCategories";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
-import HomeSlider from "../../components/HomeSlider";
 
 const Home: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,7 +36,7 @@ const Home: React.FC = () => {
       </Typography>
     );
   }
-  if (!list) {
+  if (list.length === 0) {
     return (
       <Typography variant="h6" textAlign="center" mt={4}>
         No product found.
@@ -45,9 +44,15 @@ const Home: React.FC = () => {
     );
   }
   const sections = distributeCategories(list);
+
   return (
     <div>
-      <HomeSlider />
+      <CardMedia
+        component="img"
+        image={`https://images-eu.ssl-images-amazon.com/images/G/31/sthaneka/SVM/ncq/2X_buasdhuif._CB795788272_.jpg`}
+        alt="Slide 1"
+        sx={{ width: "100%", position: "relative" }}
+      />
       <div
         style={{
           margin: "24px 0",

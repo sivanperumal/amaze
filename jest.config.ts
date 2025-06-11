@@ -20,6 +20,7 @@ module.exports = {
     "!./src/interfaces/**",
     "!./src/redux/**",
     "!./src/redux/slices/**",
+    "!./src/hooks/**",
   ],
   coveragePathIgnorePatterns: [
     "node_modules",

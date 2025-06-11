@@ -57,7 +57,10 @@ const OrderDetails: React.FC = () => {
           </TableHead>
           <TableBody>
             {orderDetails?.cart?.map((product) => (
-              <TableRow key={product.id}>
+              <TableRow
+                key={product.id}
+                data-testid={`orderID-${product.productId}`}
+              >
                 <TableCell>{product.title}</TableCell>
                 <TableCell>${product.price.toFixed(2)}</TableCell>
                 <TableCell>{`Ordered(${product.quantity})`}</TableCell>

@@ -2,8 +2,8 @@ import { categories } from "../interface";
 
 export const distributeCategories = (categories: categories[]) => {
   const result = [];
-  const pattern = [4, 4, 2]; // Repeating pattern
-  let i = 0; // current index in categories
+  const pattern = [4, 4, 2]; //
+  let i = 0;
   let patternIndex = 0;
 
   while (i < categories.length) {

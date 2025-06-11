@@ -3,7 +3,7 @@ import React from "react";
 import { useCategories } from "../redux/slices/category.slice";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../redux/slices/user.slice";
-interface SidebarProps {
+export interface SidebarProps {
   open: boolean;
   onCloseSidebar: () => void;
 }
@@ -17,6 +17,7 @@ const CategorySidebar: React.FC<SidebarProps> = (props) => {
     navigate(url);
     onCloseSidebar();
   };
+
   return (
     <Drawer anchor="left" open={open} onClose={onCloseSidebar}>
       <List sx={{ width: "250px!important" }}>
@@ -39,6 +40,7 @@ const CategorySidebar: React.FC<SidebarProps> = (props) => {
                   }
                   primary={category.name}
                   sx={{ cursor: "pointer" }}
+                  data-testid={category.slug}
                 />
               </ListItem>
             );
