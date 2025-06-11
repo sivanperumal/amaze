@@ -37,7 +37,7 @@ const CheckoutPage: React.FC = () => {
     navigate("/customer/account/orders");
   };
   useEffect(() => {
-    if (CartList?.length === 0) {
+    if (CartList && CartList?.length === 0) {
       navigate("/checkout/cart");
     }
   });
@@ -100,29 +100,30 @@ const CheckoutPage: React.FC = () => {
             <Typography variant="h6" fontWeight="bold" mb={2}>
               Items
             </Typography>
-            {CartList?.map((item) => (
-              <Box key={item.id} display="flex" alignItems="center" mb={2}>
-                <Box
-                  component="img"
-                  src={item.thumbnail}
-                  alt={item.title}
-                  width={60}
-                  height={60}
-                  sx={{ objectFit: "cover", mr: 2 }}
-                />
-                <Box flexGrow={1}>
-                  <Typography variant="body1">{item.title}</Typography>
-                  <Typography variant="body2">
-                    ${item.price}.00 x {item.quantity} (Quantity)
-                  </Typography>
+            {CartList &&
+              CartList?.map((item) => (
+                <Box key={item.id} display="flex" alignItems="center" mb={2}>
+                  <Box
+                    component="img"
+                    src={item.thumbnail}
+                    alt={item.title}
+                    width={60}
+                    height={60}
+                    sx={{ objectFit: "cover", mr: 2 }}
+                  />
+                  <Box flexGrow={1}>
+                    <Typography variant="body1">{item.title}</Typography>
+                    <Typography variant="body2">
+                      ${item.price}.00 x {item.quantity} (Quantity)
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="body1" fontWeight="bold">
+                      ${item.price * item.quantity}
+                    </Typography>
+                  </Box>
                 </Box>
-                <Box>
-                  <Typography variant="body1" fontWeight="bold">
-                    ${item.price * item.quantity}
-                  </Typography>
-                </Box>
-              </Box>
-            ))}
+              ))}
           </Box>
 
           {/* Payment Section */}
@@ -141,6 +142,7 @@ const CheckoutPage: React.FC = () => {
               size="large"
               sx={{ mt: { xs: 2, md: 0 } }}
               onClick={() => handleOrder()}
+              data-testid="order-btn"
             >
               Place Order
             </Button>

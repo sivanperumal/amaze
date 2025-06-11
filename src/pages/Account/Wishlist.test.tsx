@@ -4,9 +4,8 @@ import { MemoryRouter } from "react-router";
 import Wishlist from "./Wishlist";
 import { configureStore } from "@reduxjs/toolkit";
 import { rootReducer } from "../../redux/store";
-import { wishlist } from "../../interface";
 
-const mockedFavProducts: wishlist[] = [
+const mockedFavProducts = [
   {
     id: "cfvk340ebpnupccjaw0gnj",
     productId: 43,

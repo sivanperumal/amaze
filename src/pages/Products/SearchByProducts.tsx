@@ -23,6 +23,7 @@ const SearchByProducts: React.FC = () => {
         justifyContent="center"
         alignItems="center"
         height="80vh"
+        data-testid="load-searchbox"
       >
         <CircularProgress />
       </Box>
@@ -35,13 +36,14 @@ const SearchByProducts: React.FC = () => {
       </Typography>
     );
   }
-  if (products?.length === 0) {
+  if (products && products?.length === 0) {
     return (
       <Typography variant="h6" textAlign="center" mt={4}>
         No product found.
       </Typography>
     );
   }
+
   return (
     <>
       <Box sx={{ p: 3, bgcolor: "#fdf6f1", minHeight: "100vh" }}>
