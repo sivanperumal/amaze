@@ -40,6 +40,7 @@ const ProductList: React.FC<ProductListProps> = (props) => {
   const handleRemoveFav = (productId: number) => {
     dispatch(removeFav(productId));
   };
+
   return (
     <>
       {products &&
@@ -47,14 +48,20 @@ const ProductList: React.FC<ProductListProps> = (props) => {
           const isFav = favProducts?.some(
             (fav) => fav.productId === product.id
           );
+
           return (
-            <Grid key={product.id} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+            <Grid
+              key={product.id}
+              size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+              data-testid={`product-${product.id}`}
+            >
               <Card>
                 <CardMedia
                   component="img"
                   height="180"
                   image={product.thumbnail}
                   alt={product.title}
+                  data-testid={isFav ? "fav-true" : "fav-false"}
                 />
                 <CardContent>
                   <Box>
@@ -92,15 +99,22 @@ const ProductList: React.FC<ProductListProps> = (props) => {
                       variant="contained"
                       size="small"
                       onClick={() => handleAddCart(product.id)}
+                      data-testid={`prodAddCart-${product.id}`}
                     >
                       Add to Cart
                     </Button>
                     {isFav ? (
-                      <IconButton onClick={() => handleRemoveFav(product.id)}>
+                      <IconButton
+                        onClick={() => handleRemoveFav(product.id)}
+                        data-testid={`fav-${product.id}`}
+                      >
                         <FavoriteIcon />
                       </IconButton>
                     ) : (
-                      <IconButton onClick={() => handleAddFav(product.id)}>
+                      <IconButton
+                        onClick={() => handleAddFav(product.id)}
+                        data-testid={`unfav-${product.id}`}
+                      >
                         <FavoriteBorderIcon />
                       </IconButton>
                     )}

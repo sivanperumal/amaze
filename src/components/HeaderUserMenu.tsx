@@ -22,7 +22,7 @@ const HeaderUserMenu: React.FC<UserMenuProps> = (props) => {
   const { username } = props;
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
-  const { loggedUser } = useUser();
+  const { isAuthenticate } = useUser();
   const handleToggleMenu = (event: MouseEvent<HTMLElement>) => {
     if (anchorEl) {
       setAnchorEl(null);
@@ -41,17 +41,18 @@ const HeaderUserMenu: React.FC<UserMenuProps> = (props) => {
     navigate(url);
     handleCloseMenu();
   };
-  //return <h4>Welcome {username ? username : "Guest"}</h4>;
+
   return (
     <Box display="flex" alignItems="center">
       <IconButton
         size="small"
         onClick={handleToggleMenu}
         sx={{ color: "#fff" }}
+        data-testid="toggle-open"
       >
         <AccountCircle sx={{ mr: 1 }} />
         <Typography variant="body1" fontWeight="bold">
-          Welcome, {username ? username : "Guest"}
+          Welcome, {username && username}
         </Typography>
       </IconButton>
 
@@ -66,6 +67,7 @@ const HeaderUserMenu: React.FC<UserMenuProps> = (props) => {
             sx: { minWidth: 200 },
           },
         }}
+        data-testid={`login-${isAuthenticate.toString}`}
       >
         <Box p={1} textAlign="center">
           <Typography variant="subtitle2" color="primary" fontWeight="bold">
@@ -73,30 +75,40 @@ const HeaderUserMenu: React.FC<UserMenuProps> = (props) => {
           </Typography>
         </Box>
         <Divider />
-        {loggedUser ? (
-          <>
-            <MenuItem
-              onClick={() => handleMenuItemClick("/customer/account/profile")}
-            >
-              Profile
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleMenuItemClick("/customer/account/orders")}
-            >
-              Orders
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleMenuItemClick("/customer/account/wishlist")}
-            >
-              Wishlist
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </>
-        ) : (
-          <MenuItem component={Link} to="/customer/login">
-            Login
-          </MenuItem>
-        )}
+        {isAuthenticate
+          ? [
+              <MenuItem
+                key="profile"
+                onClick={() => handleMenuItemClick("/customer/account/profile")}
+                data-testid="menuitem-link"
+              >
+                Profile
+              </MenuItem>,
+              <MenuItem
+                key="orders"
+                onClick={() => handleMenuItemClick("/customer/account/orders")}
+                data-testid="menuitem-link"
+              >
+                Orders
+              </MenuItem>,
+              <MenuItem
+                key="wishlist"
+                onClick={() =>
+                  handleMenuItemClick("/customer/account/wishlist")
+                }
+                data-testid="menuitem-link"
+              >
+                Wishlist
+              </MenuItem>,
+              <MenuItem key="logout" onClick={handleLogout}>
+                Logout
+              </MenuItem>,
+            ]
+          : [
+              <MenuItem key="login" component={Link} to="/customer/login">
+                Login
+              </MenuItem>,
+            ]}
       </Menu>
     </Box>
   );

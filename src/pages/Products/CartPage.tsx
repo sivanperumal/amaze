@@ -29,12 +29,11 @@ const CartPage: React.FC = () => {
     dispatch(removeCart(productId));
   };
 
-  const handleQuantity = (cartId: number | string, method: string) => {
-    if (method === "increment") {
-      dispatch(quantityIncrement(cartId));
-    } else {
-      dispatch(quantityDecrement(cartId));
-    }
+  const handleIncrementQuantity = (cartId: number | string) => {
+    dispatch(quantityIncrement(cartId));
+  };
+  const handleDecrementQuantity = (cartId: number | string) => {
+    dispatch(quantityDecrement(cartId));
   };
 
   const total = cartList
@@ -53,7 +52,7 @@ const CartPage: React.FC = () => {
       </Box>
     );
   }
-  if (cartList?.length === 0) {
+  if (cartList && cartList?.length === 0) {
     return (
       <Box sx={{ p: 3, bgcolor: "#fdf6f1", minHeight: "100vh" }}>
         <Typography variant="h5" gutterBottom>
@@ -132,7 +131,8 @@ const CartPage: React.FC = () => {
                     color="primary"
                     size="small"
                     disabled={item.quantity == 1 ? true : false}
-                    onClick={() => handleQuantity(item.id, "decrement")}
+                    onClick={() => handleDecrementQuantity(item.id)}
+                    data-testid={`dec-quantity-${item.id}`}
                   >
                     <RemoveIcon />
                   </IconButton>
@@ -140,7 +140,8 @@ const CartPage: React.FC = () => {
                   <IconButton
                     color="primary"
                     size="small"
-                    onClick={() => handleQuantity(item.id, "increment")}
+                    onClick={() => handleIncrementQuantity(item.id)}
+                    data-testid={`incr-quantity-${item.id}`}
                   >
                     <AddIcon />
                   </IconButton>
@@ -154,6 +155,7 @@ const CartPage: React.FC = () => {
                   color="error"
                   size="small"
                   sx={{ ml: 1 }}
+                  data-testid={`remove-cart-${item.id}`}
                   onClick={() => handleRemoveCart(item.productId)}
                 >
                   <DeleteIcon />

@@ -29,7 +29,13 @@ const FourCardCategory: React.FC<CategoryProps> = (props) => {
   }
   if (error) {
     return (
-      <Typography variant="h6" color="error" textAlign="center" mt={4}>
+      <Typography
+        variant="h6"
+        color="error"
+        textAlign="center"
+        mt={4}
+        data-testid={error}
+      >
         Error: {error}
       </Typography>
     );

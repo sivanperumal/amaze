@@ -19,6 +19,7 @@ import { Link } from "react-router";
 const Orders: React.FC = () => {
   const { loggedUser } = useUser();
   const orders = loggedUser?.orders;
+
   return (
     <Box p={4}>
       {orders?.length !== 0 ? (

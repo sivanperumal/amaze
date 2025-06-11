@@ -73,6 +73,7 @@ const Wishlist: React.FC = () => {
             color="warning"
             startIcon={<DeleteIcon />}
             onClick={() => handleDeleteAllfav()}
+            data-testid="remove-allfav-btn"
           >
             Delete All
           </Button>
@@ -111,12 +112,14 @@ const Wishlist: React.FC = () => {
                       size="small"
                       startIcon={<ShoppingCartIcon />}
                       onClick={() => handleMoveToCart(product.productId)}
+                      data-testid={`favProMov-Cart-${product.productId}`}
                     >
                       Move to Cart
                     </Button>
                     <IconButton
                       color="warning"
                       onClick={() => handleRemoveFav(product.productId)}
+                      data-testid={`favProRemove-Cart-${product.productId}`}
                     >
                       <FavoriteIcon />
                     </IconButton>

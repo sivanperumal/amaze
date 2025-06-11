@@ -17,7 +17,7 @@ import HeaderUserMenu from "./HeaderUserMenu";
 import { useUser } from "../redux/slices/user.slice";
 import Search from "./Search";
 
-interface HeaderProps {
+export interface HeaderProps {
   onClickSidebar: () => void;
 }
 const Header: React.FC<HeaderProps> = (props) => {

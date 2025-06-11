@@ -38,13 +38,15 @@ const ProductListByCategory: React.FC = () => {
       </Typography>
     );
   }
-  if (!products) {
+
+  if (products?.length === 0) {
     return (
       <Typography variant="h6" textAlign="center" mt={4}>
         No product found.
       </Typography>
     );
   }
+
   return (
     <>
       <Grid

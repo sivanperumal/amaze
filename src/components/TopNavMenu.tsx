@@ -24,6 +24,7 @@ const TopNavMenu: React.FC = () => {
               <Link
                 to={`/category/${item.slug}`}
                 style={{ color: "#fff", textDecoration: "none" }}
+                data-testid={item.slug}
               >
                 {item.name}
               </Link>
