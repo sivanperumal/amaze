@@ -40,7 +40,7 @@ const CheckoutPage: React.FC = () => {
     if (CartList && CartList?.length === 0) {
       navigate("/checkout/cart");
     }
-  });
+  }, [CartList, navigate]);
   return (
     <Box p={4}>
       {/* Checkout Title */}
